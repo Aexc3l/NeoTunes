@@ -1,22 +1,39 @@
 package model;
 
-import java.sql.Date;
+import java.time.LocalDate; 
 import java.util.ArrayList;
 
 public class Artist extends Producer {
 
 	private ArrayList<Song>  producedSongLists;
 
-	public Artist(String nickName, String id, Date linkingDate, String imageURL, double acumulatedPlaybacks,
+	public Artist(String nickName, String id, LocalDate linkingDate, String imageURL, double acumulatedPlaybacks,
 			double acumPlaysByConsumer) {
 		super(nickName, id, linkingDate, imageURL, acumulatedPlaybacks, acumPlaysByConsumer);
 		this.producedSongLists = new ArrayList<Song>();
 	}
 
-	public boolean addPodcast(Song songName) {
-
-		return producedSongLists.add(songName);
+	@Override
+	public boolean addAudio(Audio newAudio) {
+		
+		return producedSongLists.add((Song) newAudio);
 		
 	}
+
+	public String showAudioList() {
 	
+			String audioRegistered = "";
+
+			for (int i = 0; (i < producedSongLists.size()); i++) {
+
+				if (!producedSongLists.isEmpty()) {
+
+					audioRegistered += "\nName: " + producedSongLists.get(i).getName() + "\nDuration: " + producedSongLists.get(i).getDuration() 
+							+ "\nNumber of Playbacks: " + producedSongLists.get(i).getNumberOfPlaybacks()+ producedSongLists.get(i).toString() + "\n";			
+				}
+			}
+			return audioRegistered;
+		
+	}
+
 }

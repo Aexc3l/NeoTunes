@@ -5,18 +5,20 @@ import java.util.Random;
 
 public class Playlist {
 
-
+	private int[][] idMatrix;
+	private String id;
 	private String name;
 	private ArrayList<Audio> audioList; 
-	private Random generateNumbers;
 	private PlayType playlistType;
 
 	public Playlist(String name, int playlistType) {
 		this.name = name;
 		this.playlistType = PlayType.values()[playlistType-1];
-		generateNumbers = new Random();
-
+		this.idMatrix = new int[6][6];
+		createNumericMatrix();
+		this.id = generateId();
 	}
+
 
 	public String getName() {
 		return name;
@@ -26,72 +28,71 @@ public class Playlist {
 		this.name = name;
 	}
 
-	public void createNumericMatrix() {
+	public String createNumericMatrix(){
 
 		int rows = 6;
 		int columns = 6;
 
-		int[][] tmp = new int[rows][columns];
+		Random r = new Random();
 
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				int number = generateNumbers.nextInt(10);
-				tmp[i][j] = number;
-				System.out.println(tmp);
+		String tmp = "";
+
+		for (int i = 0; i < rows; i++){
+			tmp += "\n";
+			for (int j = 0; j < columns; j++){
+				this.idMatrix[i][j] = r.nextInt(10);
+				tmp += this.idMatrix[i][j] + " ";
 			}
 		}
-		
-		if (playlistType == PlayType.SONGS || playlistType == PlayType.MIXED) {
-
-			calculateCodeN(tmp);			
-		}
-
-		if (playlistType == PlayType.PODCAST || playlistType == PlayType.MIXED) {
-
-			calculateCodeT(tmp);			
-		}	
+		return tmp;
 	}
 
-	private String calculateCodeT(int[][] matrix) {
-	
-		String msg = "";
+	public String generateId(){
+		String id = "Code: ";
 
-		return msg;
-		
-	}
+		int rows = 6;
+		int columns = 6;
 
-	public String calculateCodeN(int[][] matrix) {
-		
-		String msg = "";
-
-		for (int i = matrix[0].length; i > 0; i--) { // Columns
-
-			msg += matrix[i - 1][0];
-
-		}
-
-		for (int i = 0; i < matrix.length; i++) { // Rows
-
-			for (int j = 0; j < matrix[0].length; j++) { // Columns
-
-				if (i == j && i > 0 && i < matrix.length - 1) {
-
-					msg += matrix[i][j];
-
+		if(playlistType == PlayType.SONGS){
+			for (int i = rows - 1; i > - 1; i--){
+				id += this.idMatrix[i][0];
+			}
+			for (int i = 1; i < rows; i++) {
+				for (int j = 0; j < columns-1; j++) {
+					if (i==j){
+						id += this.idMatrix[i][j];
+					}
 				}
-
+			}
+			for (int i = rows - 1; i > -1; i--){
+				id += this.idMatrix[i][5];
 			}
 
+		}else if(playlistType == PlayType.PODCAST){
+			for (int j = 0; j < columns-3; j++){
+				id += this.idMatrix[0][j];
+			}
+			for (int i = 1; i < rows; i++) {
+				id += this.idMatrix[i][2];
+			}
+			for (int i = rows - 1; i>0; i--) {
+				id += this.idMatrix[i][3];
+			}
+			for (int j = 3; j < columns; j++){
+				id += this.idMatrix[0][j];
+			}
+
+		}else if(playlistType == PlayType.MIXED){
+			for (int i = idMatrix.length - 1; i > - 1; i--){
+				for (int j = idMatrix[0].length-1; j>-1; j--) {
+					int number = i+j;
+					if (number% 2 != 0 && number > 1) {
+						id += this.idMatrix[i][j];
+					}
+				}	
+			}
 		}
-
-		for (int i = matrix[0].length; i > 0; i--) { // Columns
-
-			msg += matrix[i - 1][matrix[0].length - 1];
-
-		}
-
-		return msg;
-
+		return id;
 	}
 
 	public boolean addAudio(Audio addedAudio) {
@@ -102,15 +103,38 @@ public class Playlist {
 			return audioList.add(addedAudio);			
 		}
 
-		if (playlistType == PlayType.SONGS || playlistType == PlayType.MIXED && addedAudio instanceof Podcast ) {
+		if (playlistType == PlayType.PODCAST || playlistType == PlayType.MIXED && addedAudio instanceof Podcast ) {
 
 			return audioList.add(addedAudio);			
 		}
 
-		return true;
+		return false;
 	}
 
+	public int getSongs() {
+		int pos = 0;
+		for (int i = 0;i < audioList.size(); i++ ) {
+			if (audioList.get(i) instanceof Song) {
+				pos = pos + 1;
+			}
+		}
 
+		return pos;
+	}
 
+	public int getPodcast() {
+		int pos = 0;
+		for (int i = 0;i < audioList.size(); i++ ) {
+			if (audioList.get(i) instanceof Song) {
+				pos = pos + 1;
+			}
+		}	
+		return pos;
+	}
+
+	@Override
+	public String toString() {
+		return "\nPlaylist Id: " + id + "\nName: " + name + "\nSongs in Playlist" + getSongs() + "\nPodcast in Playlist" + getPodcast() ;
+	}
 
 }

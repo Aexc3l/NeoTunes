@@ -1,14 +1,14 @@
 package model;
 
-import java.sql.Date; 
+import java.time.LocalDate;  
 
 public abstract class User {
 
 	private String nickName;
 	private String id;
-	private Date linkingDate;
+	private LocalDate linkingDate;
 
-	public User(String nickName, String id, Date linkingDate) {
+	public User(String nickName, String id, LocalDate linkingDate) {
 		super();
 		this.nickName = nickName;
 		this.id = id;
@@ -31,13 +31,15 @@ public abstract class User {
 		this.id = id;
 	}
 
-	public Date getLinkingDate() {
+
+	public LocalDate getLinkingDate() {
 		return linkingDate;
 	}
 
-	public void setLinkingDate(Date linkingDate) {
+	public void setLinkingDate(LocalDate linkingDate) {
 		this.linkingDate = linkingDate;
 	}
+
 
 	@Override
 	public String toString() {

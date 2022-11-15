@@ -48,6 +48,10 @@ public class Song extends Audio {
 		this.allSales = allSales;
 	}
 
+	@Override
+	public String toString() {
+		return "\nAlbum: " + album + "\nGenre: " + genre + "\nSale Value: " + saleValue + "\nAll Sales: " + allSales;
+	}
 
 	
 }

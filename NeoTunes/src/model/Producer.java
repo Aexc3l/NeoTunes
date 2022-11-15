@@ -1,19 +1,22 @@
 package model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-public class Producer extends User {
+public abstract class Producer extends User implements AddedAudio{
 	
 	private String imageURL;
 	private double acumulatedPlaybacks;
 	private double acumPlaysByConsumer;
+	private ArrayList<Podcast>  producedPodcastLists;
 	
-	public Producer(String nickName, String id, Date linkingDate, String imageURL, double acumulatedPlaybacks,
+	public Producer(String nickName, String id, LocalDate dates, String imageURL, double acumulatedPlaybacks,
 			double acumPlaysByConsumer) {
-		super(nickName, id, linkingDate);
+		super(nickName, id, dates);
 		this.imageURL = imageURL;
 		this.acumulatedPlaybacks = acumulatedPlaybacks;
 		this.acumPlaysByConsumer = acumPlaysByConsumer;
+		this.producedPodcastLists = new ArrayList<Podcast>();
 	}
 	
 	public String getImageURL() {
@@ -39,5 +42,6 @@ public class Producer extends User {
 	public void setAcumPlaysByConsumer(double acumPlaysByConsumer) {
 		this.acumPlaysByConsumer = acumPlaysByConsumer;
 	}
+
 
 }

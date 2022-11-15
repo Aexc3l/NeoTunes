@@ -1,12 +1,12 @@
 package model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
-public class Consumer extends User {
+public abstract class Consumer extends User implements AddedSongs{
 
-	public Consumer(String nickName, String id, Date linkingDate) {
-		super(nickName, id, linkingDate);
-		// TODO Auto-generated constructor stub
+	public Consumer(String nickName, String id, LocalDate dates) {
+		super(nickName, id, dates);
+		
 	}
 
 }
