@@ -6,7 +6,7 @@ public class Podcast extends Audio {
 	private Category category;
 
 	
-	public Podcast(String name, String imageURL, String duration, double numberOfPlaybacks, String description,
+	public Podcast(String name, String imageURL, int duration, double numberOfPlaybacks, String description,
 			int category) {
 		super(name, imageURL, duration, numberOfPlaybacks);
 		this.description = description;

@@ -36,4 +36,20 @@ public class Artist extends Producer {
 		
 	}
 
+	public boolean checkExistence(Song checkSong) {
+		for (int i = 0; (i < producedSongLists.size()); i++) {
+
+			if (!producedSongLists.isEmpty() && producedSongLists.get(i) == checkSong) {
+
+				return true;			
+			}
+		}
+		return false;
+	}
+	
+	public void addPlayback() {
+
+		acumulatedPlaybacks = acumulatedPlaybacks + 1;
+
+	}
 }

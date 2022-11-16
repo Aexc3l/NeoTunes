@@ -33,4 +33,31 @@ public class Premium extends Consumer {
 	public boolean addPlaylist(Playlist newPlaylists) {
 		return createdPlaylist.add(newPlaylists);
 	}
+	public String seeAllPlaylist() {
+			String allPlaylist = "";
+		
+		for (int i = 0; i < createdPlaylist.size(); i++ ) {
+			
+			if (!createdPlaylist.isEmpty()) {
+				allPlaylist += "\n" + (i + 1) + ". " + createdPlaylist.get(i).toString();
+			}
+			
+		}
+		
+		return allPlaylist;
+	}
+
+	public String seeAllAddedAudio() {
+		String allAudio = "";
+		
+		for (int i = 0; i < purchasedSongs.size(); i++ ) {
+			
+			if (!purchasedSongs.isEmpty()) {
+				allAudio += "\n" + (i + 1) + ". " + purchasedSongs.get(i).getName();
+			}
+			
+		}
+		
+		return allAudio;
+	}
 }

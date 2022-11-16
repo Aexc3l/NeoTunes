@@ -2,13 +2,13 @@ package model;
 
 
 public class Audio {
-	
+
 	private String name;
 	private String imageURL;
-	private String duration;
-	private double numberOfPlaybacks;
-	
-	public Audio(String name, String imageURL, String duration, double numberOfPlaybacks) {
+	private int duration;
+	public double numberOfPlaybacks;
+
+	public Audio(String name, String imageURL, int duration, double numberOfPlaybacks) {
 		super();
 		this.name = name;
 		this.imageURL = imageURL;
@@ -32,11 +32,11 @@ public class Audio {
 		this.imageURL = imageURL;
 	}
 
-	public String getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
@@ -48,12 +48,40 @@ public class Audio {
 		this.numberOfPlaybacks = numberOfPlaybacks;
 	}
 
+	public String calculateDuration(){
+
+		int audioDuration = duration;
+
+		int hours = (audioDuration / 3600);
+		int minutes = ((audioDuration-hours*3600)/60);
+		int seconds = audioDuration-(hours*3600+minutes*60);
+
+		String result = hours + ":" +minutes + ":" +  seconds;
+		if (hours <= 0) {
+			if (minutes < 10) {
+				result =  "0" + minutes + ":" + seconds;		
+			}
+		}
+		if (minutes >= 10 && hours <= 0) {
+			result =  minutes + ":" + seconds;	
+		}
+		else if (minutes < 10 && hours > 0 ) {
+			result = "0" + hours + ":" + "0" +minutes + ":" + seconds;	
+		}
+		else if (minutes > 10 && hours > 10) {
+			result = hours + ":" + "0" +minutes + ":0" +  seconds ;	
+		}
+
+		return result;
+
+	}
+
 	@Override
 	public String toString() {
-		return "Audio [name=" + name + ", imageURL=" + imageURL + ", duration=" + duration + ", numberOfPlaybacks="
+		return "Audio [name=" + name + ", imageURL=" + imageURL + ", duration=" + calculateDuration() + ", numberOfPlaybacks="
 				+ numberOfPlaybacks + "]";
 	}
-	
+
 
 
 }

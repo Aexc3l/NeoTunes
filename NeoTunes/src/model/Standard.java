@@ -41,4 +41,32 @@ public class Standard extends Consumer {
 		return false;
 	}
 
+	public String seeAllPlaylist() {
+		String allPlaylist = "";
+		
+		for (int i = 0; i < createdPlaylist.length; i++ ) {
+			
+			if (createdPlaylist[i] != null) {
+				allPlaylist += "\n" + (i + 1) + ". " + createdPlaylist[i].toString();
+			}
+			
+		}
+		
+		return allPlaylist;
+	}
+	
+	public String seeAllAddedAudio() {
+		String allAudio = "SONGS";
+		
+		for (int i = 0; i < purchasedSongs.length; i++ ) {
+			
+			if (purchasedSongs[i] != null) {
+				allAudio += "\n" + (i + 1) + ". " + purchasedSongs[i].getName();
+			}
+			
+		}
+		
+		return allAudio;
+	}
 }
+

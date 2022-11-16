@@ -63,7 +63,7 @@ public class NeoTunesManager {
 	private void playlistConfig() {
 		System.out.println("\nType an option");
 		System.out.println("1. Create a User's Playlist");
-		System.out.println("2. Share a Playlist");
+		System.out.println("2. Share a Playlist by User");
 		System.out.println("3. Edit a Playlist");
 		System.out.println("0. Go Back");
 
@@ -75,15 +75,60 @@ public class NeoTunesManager {
 			registerPlaylist();
 			break;
 		case 2:
+			reader.nextLine();
+			String consumerId = "";
+			boolean existence = false;
+			int position = 0;
 
+			while (!existence) {
+				System.out.println("\nType the Consumer User Id: ");
+				System.out.println("(In case you Type a Wrong Id, You can Type it again");
+				consumerId = reader.nextLine();
+				if (controller.checkConsumer(consumerId) != -1) {
+					position = controller.checkConsumer(consumerId);
+					existence = true; 		
+				}
+
+			}
+			System.out.print(controller.showAllplayList(position));
 			break;
-		case 0:;
-		break;
+		case 3:
+			editAPlaylist();
+			break;
 		default:
 			System.out.println("You must type a valid option");
 			break;
 
 		}		
+
+	}
+
+	private void editAPlaylist() {
+
+		System.out.println("\nType an option");
+		System.out.println("1. Add a Song");
+		System.out.println("2. See all Users");
+		System.out.println("0. Go Back");
+
+		int mainOption = reader.nextInt();
+
+		switch (mainOption) {
+
+		case 1:
+			registerUser();
+			break;
+		case 2:
+			System.out.print(controller.showUserList());	
+			break;
+		case 3:
+			break;
+		case 0:
+			break;
+		default:
+			System.out.println("You must type a valid option");
+			break;
+
+		}
 
 	}
 
@@ -102,13 +147,12 @@ public class NeoTunesManager {
 			registerUser();
 			break;
 		case 2:
-			System.out.print(controller.showUserList());
+			System.out.print(controller.showUserList());	
 			break;
 		case 3:
-
 			break;
-		case 0:;
-		break;
+		case 0:
+			break;
 		default:
 			System.out.println("You must type a valid option");
 			break;
@@ -243,7 +287,7 @@ public class NeoTunesManager {
 			seeAudiobyProducer();
 			break;
 		case 5:
-			buyAsong();
+			simulatedAudio();
 			break;
 		case 6:
 			buyAsong();
@@ -253,6 +297,30 @@ public class NeoTunesManager {
 			break;
 
 		}	
+
+	}
+
+	private void simulatedAudio() {
+		reader.nextLine();
+		String consumerId = "";
+		boolean existence = false;
+		int position = 0;
+
+		while (!existence) {
+			System.out.println("\nType the Consumer User Id: ");
+			System.out.println("(In case you Type a Wrong Id, You can Type it again");
+			consumerId = reader.nextLine();
+			if (controller.checkConsumer(consumerId) != -1) {
+				position = controller.checkConsumer(consumerId);
+				existence = true; 		
+			}
+		}
+		System.out.print(controller.seeAddedAudio(position));
+		
+		System.out.println("\nType the name of the Audio that you want to play: ");
+		String audioName = reader.nextLine();
+
+
 
 	}
 
@@ -317,8 +385,8 @@ public class NeoTunesManager {
 		System.out.println("\nType the new Song's image URL: ");
 		String imageURL = reader.nextLine();
 
-		System.out.println("\nType the new User's duration: (00:00) ");
-		String duration = reader.nextLine();
+		System.out.println("\nType the new User's duration: (Seconds) ");
+		int duration = reader.nextInt();
 
 		System.out.println("\nType the new Song's album: ");
 		String album = reader.nextLine();
@@ -357,8 +425,8 @@ public class NeoTunesManager {
 		System.out.println("\nType the new Podcast's image URL: ");
 		String imageURL = reader.nextLine();
 
-		System.out.println("\nType the new Podcast's duration: (00:00) ");
-		String duration = reader.nextLine();
+		System.out.println("\nType the new Podcast's duration: (Seconds) ");
+		int duration = reader.nextInt();
 
 		System.out.println("\nType the new Podcast's description: ");
 		String description = reader.nextLine();
@@ -393,10 +461,10 @@ public class NeoTunesManager {
 		}
 		System.out.print("\nType the Playlist's name: ");
 		String name = reader.nextLine();
-		
+
 		System.out.print("\nType the Playlist's name: \n[1]SONG \n[2]PODCAST \n[3]MIXED");
 		int plType = reader.nextInt();
-		
+
 		if (controller.registerPlaylist(name, plType, pos)) {
 
 			System.out.println("\nPlaylist added successfully");
@@ -418,13 +486,11 @@ public class NeoTunesManager {
 			name = reader.nextLine();
 		}
 
-		System.out.print(controller.checkSongExistence(name));
-
 		String consumerId = "";
 		boolean existence = false;
 		int position = 0;
 
-		while (existence) {
+		while (!existence) {
 			System.out.println("\nType the Consumer User Id: ");
 			System.out.println("(In case you Type a Wrong Id, You can Type it again");
 			consumerId = reader.nextLine();
@@ -437,6 +503,7 @@ public class NeoTunesManager {
 		if (controller.buySong(controller.checkSongExistence(name), position)) {
 
 			System.out.println("\nSong added successfully");
+			controller.addANewBuy(controller.checkSongExistence(name));
 
 		} else {
 

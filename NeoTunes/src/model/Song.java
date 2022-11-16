@@ -7,7 +7,7 @@ public class Song extends Audio {
 	private double saleValue;
 	private double allSales;
 	
-	public Song(String name, String imageURL, String duration, double numberOfPlaybacks, String album, int genre,
+	public Song(String name, String imageURL, int duration, double numberOfPlaybacks, String album, int genre,
 			double saleValue, double allSales) {
 		super(name, imageURL, duration, numberOfPlaybacks);
 		this.album = album;
@@ -51,6 +51,13 @@ public class Song extends Audio {
 	@Override
 	public String toString() {
 		return "\nAlbum: " + album + "\nGenre: " + genre + "\nSale Value: " + saleValue + "\nAll Sales: " + allSales;
+	}
+
+	public void addPlayback() {
+		
+		numberOfPlaybacks = numberOfPlaybacks + 1;
+		allSales = allSales +1;
+		
 	}
 
 	

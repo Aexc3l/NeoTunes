@@ -21,8 +21,9 @@ public class NeoTunesController {
 	}
 
 	public void testCase(){
-		
+
 		registerStandard("NickName", "10202");
+		registerPremium("Socio", "900");
 		registerArtist("Silvio", "1003", "10", 0,0);
 
 		int pos = 0;
@@ -35,7 +36,7 @@ public class NeoTunesController {
 
 			}
 		}
-		
+
 		for (int i = 0; (i < usersCollection.size()); i++) {
 
 			if (usersCollection.get(i).getNickName().equals("Silvio")) {
@@ -44,12 +45,12 @@ public class NeoTunesController {
 
 			}
 		}
-		
-		registerSong("SEX", "SEX", "01:10", 0, "sex", 1 ,100, 0, pos1 );
-		registerPlaylist("SEX", 1, pos);
+
+		registerSong("LIRIO", "LIRIO", 1240, 0, "SSS", 1 ,100, 0, pos1 );
+		registerPlaylist("SSS", 1, pos);
 
 	}
-	
+
 	public String getUserType(User userInstance) {
 
 		for (int i = 0; (i < usersCollection.size()); i++) {
@@ -108,7 +109,7 @@ public class NeoTunesController {
 				acumPlaysByConsume));
 	}
 
-	public boolean registerSong(String name, String imageURL, String duration, double numberOfPlaybacks, String album, int genre,
+	public boolean registerSong(String name, String imageURL, int duration, double numberOfPlaybacks, String album, int genre,
 			double saleValue, double allSales, int artistPos) {
 
 		Audio newSong = new Song (name, imageURL, duration, numberOfPlaybacks, album, genre,saleValue, allSales);
@@ -121,7 +122,7 @@ public class NeoTunesController {
 		return audioCollection.add(newSong);
 	}
 
-	public boolean registerPodcast(String name, String imageURL, String duration, double numberOfPlaybacks, String description,
+	public boolean registerPodcast(String name, String imageURL, int duration, double numberOfPlaybacks, String description,
 			int category, int artistPos) {
 
 		Audio newPodcast = new Podcast (name, imageURL, duration, numberOfPlaybacks, description,
@@ -165,7 +166,7 @@ public class NeoTunesController {
 
 			if (!audioCollection.isEmpty() && selection == 1 &&  audioCollection.get(i) instanceof Song  ) {
 
-				audioRegistered += "\nName: " + audioCollection.get(i).getName() + "\nDuration: " + audioCollection.get(i).getDuration() 
+				audioRegistered += "\nName: " + audioCollection.get(i).getName() + "\nDuration: " + audioCollection.get(i).calculateDuration() 
 						+ "\nNumber of Playbacks: " + audioCollection.get(i).getNumberOfPlaybacks()+ audioCollection.get(i).toString() + "\n";			
 			}
 
@@ -257,14 +258,31 @@ public class NeoTunesController {
 		return audios;
 	}
 
-	public String showAllplayList() {
+	public String seeAddedAudio( int pos) {
+		String audios = "";
+		for (int i = 0; i < usersCollection.size(); i++ ) {
+
+			if (usersCollection.get(i) == usersCollection.get(pos) && usersCollection.get(i) instanceof Standard) {
+				audios = (( Standard ) ( usersCollection.get(pos) )).seeAllAddedAudio();
+			}else if (usersCollection.get(i) == usersCollection.get(pos) && usersCollection.get(i) instanceof Premium) {
+				audios = (( Premium ) ( usersCollection.get(pos) )).seeAllAddedAudio();
+			}	
+		}
+
+		if (audios.equals("")) {
+			audios = "This Consumer hasn't added any audio.";
+		}
+		return audios;
+	}
+
+	public String showAllplayList(int consumerPos) {
 		String registeredPlaylist = "";
 
-		for (int i = 0; (i < playlistCollection.size()); i++) {
+		for (int i = 0; (i < usersCollection.size()); i++) {
 
-			if (!playlistCollection.isEmpty()) {
+			if (!usersCollection.isEmpty() && usersCollection.get(i) == usersCollection.get(consumerPos) && usersCollection.get(i) instanceof Standard) {
 
-				registeredPlaylist += "\n" + (i + 1) + ". " + playlistCollection.get(i).toString();
+				registeredPlaylist = (( Standard ) ( usersCollection.get(consumerPos) )).seeAllPlaylist();
 
 			}
 
@@ -279,15 +297,16 @@ public class NeoTunesController {
 	public boolean registerPlaylist(String plName, int playlistType, int consumerId) {
 
 		Playlist newPlaylist = new Playlist(plName, playlistType);
+		playlistCollection.add(newPlaylist);
 
 		for (int i = 0 ; i < usersCollection.size(); i++ ) {
 			if (usersCollection.get(i) == usersCollection.get(consumerId) && usersCollection.get(i) instanceof Standard) {	
 
-				return (( Standard ) ( usersCollection.get(consumerId) )).addPlaylist(newPlaylist);
+				(( Standard ) ( usersCollection.get(consumerId) )).addPlaylist(newPlaylist);
 
 			}else if (usersCollection.get(i) == usersCollection.get(consumerId) && usersCollection.get(i) instanceof Premium) {
 
-				return (( Premium ) ( usersCollection.get(consumerId) )).addPlaylist(newPlaylist);
+				(( Premium ) ( usersCollection.get(consumerId) )).addPlaylist(newPlaylist);
 			}	
 		}
 		return false;
@@ -307,6 +326,20 @@ public class NeoTunesController {
 			}
 		}	
 		return false;	
+	}
+
+	public void addANewBuy(int songPos) {
+
+		for(int i = 0; i< usersCollection.size(); i++){
+			if(usersCollection.get(i) instanceof Artist && (( Artist ) ( usersCollection.get(i) )).checkExistence((Song)audioCollection.get(songPos))){
+
+				(( Artist ) ( usersCollection.get(i) )).addPlayback();
+				(( Song ) ( audioCollection.get(songPos) )).addPlayback();
+
+			}
+		}
+
+
 	}
 
 }

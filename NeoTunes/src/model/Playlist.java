@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 public class Playlist {
@@ -17,6 +18,7 @@ public class Playlist {
 		this.idMatrix = new int[6][6];
 		createNumericMatrix();
 		this.id = generateId();
+		this.audioList =  new ArrayList<Audio>();
 	}
 
 
@@ -48,7 +50,7 @@ public class Playlist {
 	}
 
 	public String generateId(){
-		String id = "Code: ";
+		String id = "";
 
 		int rows = 6;
 		int columns = 6;
@@ -111,30 +113,28 @@ public class Playlist {
 		return false;
 	}
 
-	public int getSongs() {
-		int pos = 0;
-		for (int i = 0;i < audioList.size(); i++ ) {
-			if (audioList.get(i) instanceof Song) {
-				pos = pos + 1;
-			}
+	public int getPodcast(){
+		int audios = 0;
+		for (int i = 0; i < audioList.size(); i++ ) {
+			if(!audioList.isEmpty() && audioList.get(i) != null && audioList.get(i) instanceof Podcast)
+				audios = audios + 1;
 		}
-
-		return pos;
+		return audios;
 	}
 
-	public int getPodcast() {
-		int pos = 0;
-		for (int i = 0;i < audioList.size(); i++ ) {
-			if (audioList.get(i) instanceof Song) {
-				pos = pos + 1;
+	public int getSong(){
+		int audios = 0;
+		for (int i = 0; i < audioList.size(); i++ ) {
+			if (!audioList.isEmpty() && audioList.get(i) != null && audioList.get(i) instanceof Song) {
+				audios = audios + 1;
 			}
-		}	
-		return pos;
+		}
+		return audios;
 	}
 
 	@Override
 	public String toString() {
-		return "\nPlaylist Id: " + id + "\nName: " + name + "\nSongs in Playlist" + getSongs() + "\nPodcast in Playlist" + getPodcast() ;
+		return "\nPlaylist Id: " + id + "\nName: " + name + "\nPlaylist Type: " + playlistType + "\nPodcast in Playlist: " + getPodcast() + "\nSongs in Playlist : " + getSong();
 	}
 
 }
