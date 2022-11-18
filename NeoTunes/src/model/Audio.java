@@ -1,7 +1,7 @@
 package model;
 
 
-public class Audio {
+public abstract class Audio implements Reproducer {
 
 	private String name;
 	private String imageURL;

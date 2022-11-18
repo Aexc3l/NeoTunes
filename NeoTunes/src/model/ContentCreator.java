@@ -33,4 +33,22 @@ public class ContentCreator extends Producer {
 	public boolean addAudio(Audio newAudio) {
 		return producedPodcastLists.add((Podcast) newAudio);
 	}
+
+	public boolean checkExistence(Podcast checkPodcast) {
+		for (int i = 0; (i < producedPodcastLists.size()); i++) {
+
+			if (!producedPodcastLists.isEmpty() && producedPodcastLists.get(i) == checkPodcast) {
+
+				return true;			
+			}
+		}
+		return false;
+	}
+
+	public void addPlayback() {
+		
+		acumulatedPlaybacks = acumulatedPlaybacks + 1;
+		acumPlaysByConsumer = acumPlaysByConsumer + 1;
+		
+	}
 }

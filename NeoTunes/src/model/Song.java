@@ -55,10 +55,22 @@ public class Song extends Audio {
 
 	public void addPlayback() {
 		
-		numberOfPlaybacks = numberOfPlaybacks + 1;
 		allSales = allSales +1;
 		
 	}
 
-	
+	@Override
+	public String Play() {
+		String play = "\n<----- <| ----- || ----- |> ----->" + calculateDuration() 
+					+ "\nPlaying:      " + getName();
+		numberOfPlaybacks = numberOfPlaybacks + 1;
+		return play;
+	}
+
+	@Override
+	public String Pause() {
+		String pause = "\n<----- <| ----- |> ----- || ----->" + calculateDuration() 
+		+ "\n              " + getName();
+		return pause;
+	}
 }

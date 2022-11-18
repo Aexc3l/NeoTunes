@@ -50,6 +50,7 @@ public class Artist extends Producer {
 	public void addPlayback() {
 
 		acumulatedPlaybacks = acumulatedPlaybacks + 1;
+		acumPlaysByConsumer = acumPlaysByConsumer + 1;
 
 	}
 }
