@@ -290,6 +290,21 @@ public class NeoTunesController {
 		return audios;
 	}
 
+	public String seeAudioinPlaylist( int pos) {
+		String audios = "";
+		for (int i = 0; i < playlistCollection.size(); i++ ) {
+
+			if (playlistCollection.get(i) == playlistCollection.get(pos)) {
+				audios = ( playlistCollection.get(pos) ).seeAllAddedAudio();
+			}	
+		}
+
+		if (audios.equals("")) {
+			audios = "This Consumer hasn't added any audio.";
+		}
+		return audios;
+	}
+
 	public int checkArtistExistence(String artistId) {
 		int pos = -1;
 
@@ -461,5 +476,37 @@ public class NeoTunesController {
 
 	}
 
+
+	public boolean addToPlaylist(int playPos, int consumerPos, String newAudio) {
+
+		for(int i = 0; i< usersCollection.size(); i++){
+			if(usersCollection.get(i) == usersCollection.get(consumerPos) && usersCollection.get(i) instanceof Premium){
+
+				return (( Premium ) ( usersCollection.get(consumerPos) )).addtoPlaylist(newAudio,playlistCollection.get(playPos));
+
+			}else if (usersCollection.get(i) == usersCollection.get(consumerPos) && usersCollection.get(i) instanceof Standard) {
+
+				return (( Standard ) ( usersCollection.get(consumerPos) )).addtoPlaylist(newAudio,playlistCollection.get(playPos));
+
+			}
+		}	
+		return false;	
+	}
+
+	public boolean removefromPlaylist(int playPos, int consumerPos, String name) {
+
+		for(int i = 0; i< usersCollection.size(); i++){
+			if(usersCollection.get(i) == usersCollection.get(consumerPos) && usersCollection.get(i) instanceof Premium){
+
+				return (( Premium ) ( usersCollection.get(consumerPos) )).deletefromPlaylist(name,playlistCollection.get(playPos));
+
+			}else if (usersCollection.get(i) == usersCollection.get(consumerPos) && usersCollection.get(i) instanceof Standard) {
+
+				return (( Standard ) ( usersCollection.get(consumerPos) )).deletefromPlaylist(name,playlistCollection.get(playPos));
+
+			}
+		}	
+		return false;
+	}
 
 }

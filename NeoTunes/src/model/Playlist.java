@@ -97,6 +97,10 @@ public class Playlist {
 		return id;
 	}
 
+	public PlayType getPlayType(){
+		return playlistType;
+	}
+
 	public boolean addAudio(Audio addedAudio) {
 
 
@@ -111,6 +115,11 @@ public class Playlist {
 		}
 
 		return false;
+	}
+
+	public boolean deleteAudio(Audio addedAudio) {
+
+		return audioList.remove(addedAudio);			
 	}
 
 	public int getPodcast(){
@@ -130,6 +139,36 @@ public class Playlist {
 			}
 		}
 		return audios;
+	}
+
+	public String seeAllAddedAudio() {
+		String allAudio = "";
+
+		for (int i = 0; i < audioList.size(); i++ ) {
+
+			if (!audioList.isEmpty() && audioList.get(i) instanceof Podcast) {
+				allAudio += "\n" + (i + 1) + ". " + audioList.get(i).getName() + " (PODCAST)";
+			}else if (!audioList.isEmpty() && audioList.get(i) instanceof Song) {
+				allAudio += "\n" + (i + 1) + ". " + audioList.get(i).getName() + " (SONG)";
+			}	
+
+		}
+
+		return allAudio;
+	}
+
+	public boolean checkExistence(Audio addedAudio){
+
+		for (int i = 0; i < audioList.size(); i++ ) {
+
+			if (!audioList.isEmpty() && audioList.get(i) == addedAudio) {
+
+				return true;
+			
+			}
+		}
+
+		return false;
 	}
 
 	@Override

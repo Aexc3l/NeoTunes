@@ -585,6 +585,10 @@ public class NeoTunesManager {
 		String consumerId = "";
 		boolean existence = false;
 		int consPosition = 0;
+		
+		String playlistId = "";
+		boolean plExistence = false;
+		int plPosition = 0;
 
 		while (!existence) {
 			System.out.println("\nType the Consumer User Id: ");
@@ -597,12 +601,8 @@ public class NeoTunesManager {
 
 			System.out.print(controller.showAllplayList(consPosition));
 
-			String playlistId = "";
-			boolean plExistence = false;
-			int plPosition = 0;
-
 			while (!plExistence) {
-				System.out.println("\nType the Consumer User Id: ");
+				System.out.println("\nType the Playlist's Name: ");
 				System.out.println("(In case you Type a Wrong Id, You can Type it again");
 				playlistId = reader.nextLine();
 				if (controller.checkPlaylistExistence(playlistId) != -1) {
@@ -622,10 +622,12 @@ public class NeoTunesManager {
 		switch (mainOption) {
 
 		case 1:
-			addAudio();
+			System.out.print(controller.seeAddedAudio(consPosition));
+			addAudio(plPosition, consPosition);
 			break;
 		case 2:
-			deleteAudio();	
+			System.out.print(controller.seeAudioinPlaylist(plPosition));
+			deleteAudio(plPosition, consPosition);	
 			break;
 		case 3:
 			break;
@@ -639,13 +641,41 @@ public class NeoTunesManager {
 
 	}
 
-	private void deleteAudio() {
-		// TODO Auto-generated method stub
+	private void deleteAudio(int playPos, int consumerPos) {
+		reader.nextLine();
+		String name = "";
 
+		while (controller.checkAudioExistence(name) == -1) {
+			System.out.println("\nType the Audio's name: ");
+			System.out.println("(In case you Type a Wrong Audio's Name, You can Type it again)");
+			name = reader.nextLine();
+		}
+		if (controller.	removefromPlaylist(playPos, consumerPos, name)) {
+
+			System.out.println("\nAudio removed successfully");
+
+		} else {
+
+			System.out.println("\nError, Audio couldn't be removed");
+		}
 	}
 
-	private void addAudio() {
-		// TODO Auto-generated method stub
+	private void addAudio(int playPos, int consumerPos) {
+		reader.nextLine();
+		String name = "";
 
+		while (controller.checkAudioExistence(name) == -1) {
+			System.out.println("\nType the Song's name: ");
+			System.out.println("(In case you Type a Wrong Song's Name, You can Type it again)");
+			name = reader.nextLine();
+		}
+		if (controller.	addToPlaylist(playPos, consumerPos, name)) {
+
+			System.out.println("\nAudio added successfully");
+
+		} else {
+
+			System.out.println("\nError, Audio couldn't be added");
+		}
 	}
 }

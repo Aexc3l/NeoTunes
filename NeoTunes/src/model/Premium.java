@@ -29,8 +29,26 @@ public class Premium extends Consumer {
 	}
 
 	@Override
-	public boolean addtoPlaylist(Audio newAudio, Playlist createdPlaylist) {
-		// TODO Auto-generated method stub
+	public boolean addtoPlaylist(String newAudio, Playlist crPlaylist) {
+		Audio  audio = checkExistence(newAudio);
+
+		if (audio instanceof Song && crPlaylist.getPlayType() == PlayType.MIXED || crPlaylist.getPlayType() ==  PlayType.SONGS) {
+
+			return crPlaylist.addAudio(audio);
+		}
+		if (audio instanceof Podcast && crPlaylist.getPlayType() == PlayType.MIXED || crPlaylist.getPlayType() ==  PlayType.PODCAST) {
+
+			return crPlaylist.addAudio(audio);
+		}
+		return false;
+	}
+
+	public boolean deletefromPlaylist(String newAudio, Playlist crPlaylist) {
+		Audio  audio = checkExistence(newAudio);
+		if (crPlaylist.checkExistence(audio)) {
+
+			return crPlaylist.deleteAudio(audio);
+		}
 		return false;
 	}
 
@@ -38,7 +56,7 @@ public class Premium extends Consumer {
 	public boolean addPlaylist(Playlist newPlaylists) {
 		return createdPlaylist.add(newPlaylists);
 	}
-	
+
 	public String seeAllPlaylist() {
 		String allPlaylist = "";
 
