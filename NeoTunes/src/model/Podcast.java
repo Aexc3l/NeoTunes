@@ -35,16 +35,15 @@ public class Podcast extends Audio {
 		return "\nDescription: " + description + "\nCategory: " + category ;
 	}
 
-	public void addPlayback() {
-
-		numberOfPlaybacks = numberOfPlaybacks + 1;
+	public String reportString() {
+		return "\nName: " + getName() + "\nCategory: " + category  + "\nNumber of Playbacks: " + getNumberOfPlaybacks();
 	}
 
 	@Override
 	public String Play() {
 		String play = "\n<----- <| ----- || ----- |> ----->" + calculateDuration() 
 		+ "\nPlaying:      " + getName();
-		addPlayback();
+		numberOfPlaybacks = numberOfPlaybacks + 1;;
 		return play;
 	}
 

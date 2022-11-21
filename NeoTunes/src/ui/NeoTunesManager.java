@@ -32,6 +32,7 @@ public class NeoTunesManager {
 			System.out.println("1. User's Config");
 			System.out.println("2. Audio's Config");
 			System.out.println("3. Playlist's Config");
+			System.out.println("4. See All Reports");
 			System.out.println("0. Exit");
 
 			int mainOption = reader.nextInt();
@@ -51,6 +52,9 @@ public class NeoTunesManager {
 			case 3:
 				playlistConfig();
 				break;
+			case 4:
+				generateReport();
+				break;
 			default:
 				System.out.println("\nYou must type a valid option");
 				break;
@@ -58,6 +62,52 @@ public class NeoTunesManager {
 			}
 
 		}
+	}
+
+	private void generateReport() {
+		System.out.println("\nType an option");
+		System.out.println("1. Report the accumulated total of reproductions throughout the platform. (Songs and Podcast)");
+		System.out.println("2. Report the most listened song genre for a specific user and for the entire platform and its number of plays.");
+		System.out.println("3. Report the most listened to podcast category for a specific user and for the entire platform.");
+		System.out.println("4. Report the name and number of total views. (Top 5 Artist and Top 5 Content Creator)");
+		System.out.println("5. Report the name, genre or category, and total number of reproductions. (Top 10 Songs and Top 10 Podcasts)");
+		System.out.println("6. For each genre, report the number of songs sold and the total value of sales");
+		System.out.println("7. Report the total number of sales and the total value of sales (Best-selling song on the platform)");
+		System.out.println("\n0. Go Back");
+
+		int mainOption = reader.nextInt();
+
+		switch (mainOption) {
+
+		case 1:
+			System.out.print(controller.reportAcumulatePlays());
+			break;
+		case 2:
+			reportGenre();	
+			break;
+		case 3:
+			reportCategory();
+			break;
+		case 4:
+			System.out.print(controller.getTopFiveArtist() + controller.getTopFiveContentCreator());
+			break;
+		case 5:
+			System.out.print(controller.getTopTenSongs(1) + controller.getTopTenPodcasts());
+			break;
+		case 6:
+			System.out.print(controller.reportByGenre());
+			break;
+		case 7:
+			System.out.print(controller.getTopTenSongs(2));
+			break;
+		case 0:
+			break;
+		default:
+			System.out.println("You must type a valid option");
+			break;
+
+		}
+
 	}
 
 	private void userConfig() {
@@ -472,9 +522,8 @@ public class NeoTunesManager {
 					if (i % 2 == 0) {
 
 						System.out.print(controller.showAnnouncement());
-						System.out.print("Ad : 00:04");
+						System.out.print("\nAd : 00:04");
 						Thread.sleep(4000); 
-
 
 						if (controller.hearAudio(controller.checkConsumer(consumerId),audioName)) {
 							stopPlaying = true;	
@@ -585,7 +634,7 @@ public class NeoTunesManager {
 		String consumerId = "";
 		boolean existence = false;
 		int consPosition = 0;
-		
+
 		String playlistId = "";
 		boolean plExistence = false;
 		int plPosition = 0;
@@ -650,7 +699,7 @@ public class NeoTunesManager {
 			System.out.println("(In case you Type a Wrong Audio's Name, You can Type it again)");
 			name = reader.nextLine();
 		}
-		if (controller.	removefromPlaylist(playPos, consumerPos, name)) {
+		if (controller.removefromPlaylist(playPos, consumerPos, name)) {
 
 			System.out.println("\nAudio removed successfully");
 
@@ -669,7 +718,7 @@ public class NeoTunesManager {
 			System.out.println("(In case you Type a Wrong Song's Name, You can Type it again)");
 			name = reader.nextLine();
 		}
-		if (controller.	addToPlaylist(playPos, consumerPos, name)) {
+		if (controller.addToPlaylist(playPos, consumerPos, name)) {
 
 			System.out.println("\nAudio added successfully");
 
@@ -677,5 +726,73 @@ public class NeoTunesManager {
 
 			System.out.println("\nError, Audio couldn't be added");
 		}
+	}
+
+	private void reportCategory() {
+		reader.nextLine();
+		String consumerId = "";
+		boolean existence = false;
+		int position = 0;
+
+		while (!existence) {
+			System.out.println("\nType the Consumer User Id: ");
+			System.out.println("(In case you Type a Wrong Id, You can Type it again");
+			consumerId = reader.nextLine();
+			if (controller.checkConsumer(consumerId) != -1) {
+				position = controller.checkConsumer(consumerId);
+				existence = true; 		
+			}
+
+		}
+
+			System.out.println("You want to see only Consumer Report? Y/N");
+			String select = reader.nextLine();
+
+			switch (select) {
+			case "Y":
+						System.out.print(controller.reportMostListenedCategory(position,2));
+				break;
+			case "N":
+						System.out.print(controller.reportMostListenedCategory(position,1));
+				break;
+			default:
+				System.out.print("Please Type a Correct Option");
+				break;
+			}
+
+	}
+
+	private void reportGenre() {
+		reader.nextLine();
+		String consumerId = "";
+		boolean existence = false;
+		int position = 0;
+
+		while (!existence) {
+			System.out.println("\nType the Consumer User Id: ");
+			System.out.println("(In case you Type a Wrong Id, You can Type it again");
+			consumerId = reader.nextLine();
+			if (controller.checkConsumer(consumerId) != -1) {
+				position = controller.checkConsumer(consumerId);
+				existence = true; 		
+			}
+
+			System.out.println("You want to see only Consumer Report? Y/N");
+			String select = reader.nextLine();
+
+			switch (select) {
+			case "Y":
+				System.out.print(controller.reportMostListenedGenre(position,2));
+				break;
+			case "N":
+				System.out.print(controller.reportMostListenedGenre(position,1));
+				break;
+			default:
+				System.out.print("Please Type a Correct Option");
+				break;
+			}
+
+		}
+
 	}
 }

@@ -48,9 +48,16 @@ public class Artist extends Producer {
 	}
 	
 	public void addPlayback() {
-
-		acumulatedPlaybacks = acumulatedPlaybacks + 1;
+		
 		acumPlaysByConsumer = acumPlaysByConsumer + 1;
 
+	}
+
+	public void calculatePlaybacks() {
+		int plays = 0;
+		for (int i = 0; i < producedSongLists.size(); i++) {
+			plays += producedSongLists.get(i).getNumberOfPlaybacks();
+		}
+		super.setAcumulatedPlaybacks(plays);
 	}
 }

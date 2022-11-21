@@ -47,8 +47,15 @@ public class ContentCreator extends Producer {
 
 	public void addPlayback() {
 		
-		acumulatedPlaybacks = acumulatedPlaybacks + 1;
 		acumPlaysByConsumer = acumPlaysByConsumer + 1;
 		
+	}
+
+	public void calculatePlaybacks() {
+		int plays = 0;
+		for (int i = 0; i < producedPodcastLists.size(); i++) {
+			plays += producedPodcastLists.get(i).getNumberOfPlaybacks();
+		}
+		super.setAcumulatedPlaybacks(plays);
 	}
 }

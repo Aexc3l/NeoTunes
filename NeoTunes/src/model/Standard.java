@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Standard extends Consumer {
-
+	
 	private Playlist[] createdPlaylist;
 	private Audio[] addedAudios;
 	public Scanner reader;

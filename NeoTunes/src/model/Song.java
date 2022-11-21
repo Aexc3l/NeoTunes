@@ -53,10 +53,13 @@ public class Song extends Audio {
 		return "\nAlbum: " + album + "\nGenre: " + genre + "\nSale Value: " + saleValue + "\nAll Sales: " + allSales;
 	}
 
+	public String reportString() {
+		return "\nName: " + getName() + "\nGenre: " + genre + "\nNumber of Playbacks: " + getNumberOfPlaybacks() + "\nTotal Sales: " + allSales;
+	}
+
 	public void addPlayback() {
 		
-		allSales = allSales +1;
-		
+		allSales = allSales +1;	
 	}
 
 	@Override
